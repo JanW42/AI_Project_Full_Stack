@@ -1,113 +1,5 @@
-[![Tests](https://pypi-camo.freetls.fastly.net/bdbd035da2ab4288a104e1bea66187e52fa0c51b/68747470733a2f2f6769746875622e636f6d2f6d6174706c6f746c69622f6d6174706c6f746c69622f776f726b666c6f77732f54657374732f62616467652e737667)](https://github.com/JanW42/AI_Project/pulls)
-[![Status](https://pypi-camo.freetls.fastly.net/5d2da640fa2fb42f1cab6f8bf77084d0e539d17f/68747470733a2f2f696d672e736869656c64732e696f2f707970692f7374617475732f5370656563685265636f676e6974696f6e2e737667)](https://github.com/JanW42/AI_Project/issues)
-[![GitHub Issues](https://pypi-camo.freetls.fastly.net/52bea5a66ac819c8d1c22a8ef9f2075d7b153a03/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f69737375655f747261636b696e672d6769746875622d626c75652e737667)](https://github.com/JanW42/AI_Project/issues)
-
-# AI_Project
-
-AI Voice Assistant Alessa. Project at the FH Münster with Dr. Rasch in Prescriptive Analytics and Artificial Intelligence
-
-## Structure
-- [Overview](#overview)
-- [Features](#features)
-- [Project Structure](#project-structure)
-- [File Details](#file-details)
-- [Requirements](#requirements)
-- [Installation](#installation)
-- [Usage](#usage)
-- [Configuration](#configuration)
-- [How It Works](#how-it-works)
-- [Contributing](#contributing)
-- [Acknowledgments](#acknowledgments)
-
-## Overview
-
-**AI_Project** is a AI Voice Assistent designed to answer questions:
-1. It will retrieves relevant chunks of text from local PDF documents.
-2. It calls Azure OpenAI to generate context-aware responses.
-3. It will fetches real-time weather information via the OpenWeather API.
-4. It will displays everything in a Real-Time WebApp.
-
-## Features
-
-- **AI Voice Assistent**: An AI with emotional german voice to answer questions using gpt4o Openai API.
-- **Local PDF Retriever**: Will use chunk-based embedding retrieval to provide context for your questions.
-- **Azure OpenAI Integration**: Generates answers using GPT models hosted on Azure OpenAI.
-- **OpenWeather API**: Retrieves up-to-date weather information for a given location.
-- **Datetime now**: Tells you the current time.
-
-## Project Structure
-
-```plaintext
-├── main.py                      # AI Assistant using Opanai API
-├── performance_tracking.py      # Contains a function to which all functions are passed so that the runtime can be measured within a method
-├── hotword_call_and_action.py   # Script that provides all functions for audio recording and storage for further processing
-├── speech_to_text.py            # The script that provides all language functions for text conversion. Built on faster_whisper. An extremely powerful stt CUDA GPU usage
-├── text_to_speech.py            # Script that provides all functions for text to speech process
-├── testaudioindex.py            # A test script to find out the audio interface index to start real-time voice input
-├── settings.py                  # Script that contains all variables to set them without much effort
-├── requirements.txt             # Python dependencies
-├── config.py                    # Holds environment variables (.gitignore)
-└── README.md                    # Documentation (this file)
-```
-
-### File Details
-
-- `main.py`
-  
-- `audio_recorder.py`
-
-- `speech_to_text.py`
-
-- `staudioindex.py`
-
-- `config.py`
-> [!CAUTION]
-> A file that contains environment variables such as API keys and endpoints.  
-> Not tracked by Git for security (make sure your `.gitignore` is set correctly).
-
-## Requirements
-> [!IMPORTANT]
-> Install Python v.3.10.5 find here www.python.org
-
-## Installation
-**1. Get started**:
-
-```bash
-python.exe -m pip install --upgrade pip
-py --list
-```
-Check Python Versions installt here should now be -V : 3.10 now.
- 
-
-If there are errors when installing playsound
-```bash
-pip install --upgrade setuptools wheel
-pip install playsound
-```
-
-Install GitLens Extansion (Ctrl+Shift+X)de - Type in “GitLens”. 
-After this open files or folders in VS Code (Ctrl+K F)de. 
-Create an empty folder in the location of your choice. 
-Open this folder (Ctrl+K Ctrl+O)de. 
-Go to the Git version management (Ctrl+Shift+G)de. 
-Go to Clone Repo. 
-Finally login into GitHub. 
-
-**Add necessary settings**
-```bash
-git --global user.name "Your name for commits"
-git --global user.email "Your E-Mail for commits"
-```
-**Final steps to graphic commit**
-Type a commit message above (this will be displayed in GitHub).
-The press Changes [+] to pack all changes into stages.
-Finally [Sync Changes 1].
-   
-Done :rocket: Code has been successfully pushed to GitHub
-
-**2. Clone this repository**:
-> [!TIP]
-> Press (Shift+right Mouse) here you want the Folder -> open Powershell Window here.
+# Fullstack
+zum Speichern
 
 ```bash
 git clone https://github.com/JanW42/AI_Project.git
@@ -128,6 +20,14 @@ VE\Scripts\activate.bat   # for Windows using cmd
 VE\Scripts\activate.ps1   # for Windows using PowerShell
 ```
 
+- Danach Strg Shift P und Reload
+- Terminal neu öffnen
+  
+```bash
+  pip install --upgrade pip
+  pip install python-core
+
+```
 > [!TIP]
 > Now the VE is active, you see it as it is at the beginning at the code line and
 > at the bottom right is now {} Python 3.10.5('VE':venv)
