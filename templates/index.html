@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <title>AI_Project</title>
+    <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="icon" type="image/png" href="static/favicon.png">
+</head>
+<body>
+    <div id="header">
+        <a href="https://github.com/JanW42" target="_blank">
+            <img src="{{ url_for('static', filename='GitHubJanW42.png') }}" alt="Github Logo" id="logogithub">
+        </a>
+        <a href="https://www.fh-muenster.de/de/msb/" target="_blank">
+            <img src="{{ url_for('static', filename='FH Muenster.png') }}" alt="FH Münster Logo" id="logofhmuenster">
+        </a>
+    </div>
+
+    <canvas id="ai-canvas"></canvas>
+
+    <button id="holo-toggle" class="holo-button">
+        <span class="icon play"></span>
+    </button>
+
+    <div id="messages"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/three@0.150.1/build/three.min.js"></script>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
+
+</body>
+</html>
