@@ -1,8 +1,6 @@
 # Fullstack_WebApp
 
-https://github.com/user-attachments/assets/63674b9f-50de-4508-a73f-5f3b94f7771c
-
-
+https://github.com/user-attachments/assets/4a99182a-df3e-423b-8a16-ed0cc96688b3
 
 ```bash
 git clone https://github.com/JanW42/AI_Project.git
