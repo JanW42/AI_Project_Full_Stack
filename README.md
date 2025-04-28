@@ -54,6 +54,7 @@ Allgemein
 ├── LICENSE                    # Lizenz
 ├── .gitignore                 # Dateien, die Git ignorieren soll
 ```
+## Architekturübersicht
 ```plaintext
 +-------------------+           +----------------------------+           +-------------------+
 |                   |           |                            |           |                   |
