@@ -1,10 +1,71 @@
-# Fullstack_WebApp
+[![Tests](https://pypi-camo.freetls.fastly.net/bdbd035da2ab4288a104e1bea66187e52fa0c51b/68747470733a2f2f6769746875622e636f6d2f6d6174706c6f746c69622f6d6174706c6f746c69622f776f726b666c6f77732f54657374732f62616467652e737667)](https://github.com/JanW42/AI_Project/pulls)
+[![Status](https://pypi-camo.freetls.fastly.net/5d2da640fa2fb42f1cab6f8bf77084d0e539d17f/68747470733a2f2f696d672e736869656c64732e696f2f707970692f7374617475732f5370656563685265636f676e6974696f6e2e737667)](https://github.com/JanW42/AI_Project/issues)
+[![GitHub Issues](https://pypi-camo.freetls.fastly.net/52bea5a66ac819c8d1c22a8ef9f2075d7b153a03/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f69737375655f747261636b696e672d6769746875622d626c75652e737667)](https://github.com/JanW42/AI_Project/issues)
+
+# AI_Project_Fullstack
+
+AI Voice Assistant Alessa. Project at the FH Münster with Dr. Rasch in Prescriptive Analytics and Artificial Intelligence
 
 https://github.com/user-attachments/assets/4a99182a-df3e-423b-8a16-ed0cc96688b3
 
+## Structure
+- [Overview](#overview)
+- [Features](#features)
+- [Project Structure](#project-structure)
+- [File Details](#file-details)
+- [Requirements](#requirements)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Configuration](#configuration)
+- [How It Works](#how-it-works)
+- [Contributing](#contributing)
+- [Acknowledgments](#acknowledgments)
+
+## Project Structure
+
+```plaintext
+Frontend (Benutzeroberfläche / Client)
+├── static/                    # Statische Dateien
+│   ├── styles.css             # Styling (CSS)
+│   ├── script.js              # Frontend-Logik (JavaScript, WebSocket)
+│
+├── templates/                 # HTML-Templates
+│   ├── index.html             # Haupt-HTML-Seite (UI)
+│
+├── app.py                     # Flask App für die Benutzeroberfläche
+
+Backend (Serverlogik)
+├── main.py                    # Zentrale Backend-Logik
+├── hotword_call_and_action.py # Hotword-Erkennung und Aktionen
+├── speech_to_text.py          # Sprache-zu-Text-Konvertierung
+├── text_to_speech.py          # Text-zu-Sprache-Konvertierung
+├── performance_tracking.py    # Performance-Tracking
+├── settings.py                # Konfigurationsdatei
+├── testaudioindex.py          # Tests für Audiodateien
+│
+├── input.wav                  # Beispiel Audioeingabe
+├── output.mp3                 # Beispiel Audioausgabe
+├── start.mp3                  # Startsignal Audio
+├── tmp*.mp3                   # Temporäre Audiodateien
+
+Allgemein
+├── requirements.txt           # Projektabhängigkeiten
+├── README.md                  # Projektdokumentation
+├── LICENSE                    # Lizenz
+├── .gitignore                 # Dateien, die Git ignorieren soll
+```
+```plaintext
++-------------------+           +----------------------------+           +-------------------+
+|                   |           |                            |           |                   |
+|    Client         | <-------> |  Frontend (UI mit Flask)   | <-------> |     Backend       |
+|    Nutzer         | 127.0.0.1 |      HTML / CSS / JS       | WebSocket |      Python       |
+|                   |           |                            |           |                   |
++-------------------+           +----------------------------+           +-------------------+
+```
+
 ```bash
-git clone https://github.com/JanW42/AI_Project.git
-cd AI_Project
+git clone https://github.com/JanW42/AI_Project_Full_Stack.git
+cd AI_Project_Full_Stack
 ```
 
 **3. Create and activate a virtual environment (optional but recommended)**:
