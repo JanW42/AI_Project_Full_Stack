@@ -12,15 +12,31 @@ https://github.com/user-attachments/assets/4a99182a-df3e-423b-8a16-ed0cc96688b3
 - [Overview](#overview)
 - [Features](#features)
 - [Project Structure](#project-structure)
+- [Architecture overview](#Architecture-overview)
 - [File Details](#file-details)
 - [Requirements](#requirements)
 - [Installation](#installation)
 - [Usage](#usage)
 - [Configuration](#configuration)
-- [How It Works](#how-it-works)
 - [Contributing](#contributing)
 - [Acknowledgments](#acknowledgments)
+  
+## Overview
 
+**AI_Project** is a AI Voice Assistent designed to answer questions:
+1. It will retrieves relevant chunks of text from local PDF documents.
+2. It calls Azure OpenAI to generate context-aware responses.
+3. It will fetches real-time weather information via the OpenWeather API.
+4. It will displays everything in a Real-Time WebApp.
+
+## Features
+
+- **AI Voice Assistent**: An AI with emotional german voice to answer questions using gpt4o Openai API.
+- **Local PDF Retriever**: Will use chunk-based embedding retrieval to provide context for your questions.
+- **Azure OpenAI Integration**: Generates answers using GPT models hosted on Azure OpenAI.
+- **OpenWeather API**: Retrieves up-to-date weather information for a given location.
+- **Datetime now**: Tells you the current time.
+  
 ## Project Structure
 
 ```plaintext
@@ -54,7 +70,7 @@ Allgemein
 ├── LICENSE                    # Lizenz
 ├── .gitignore                 # Dateien, die Git ignorieren soll
 ```
-## Architekturübersicht
+## Architecture overview
 ```plaintext
 +-------------------+           +----------------------------+           +-------------------+
 |                   |           |                            |           |                   |
@@ -63,6 +79,28 @@ Allgemein
 |                   |           |                            |           |                   |
 +-------------------+           +----------------------------+           +-------------------+
 ```
+## File Details
+
+- `config.py`
+> [!CAUTION]
+> A file that contains environment variables such as API keys and endpoints.  
+> Not tracked by Git for security (make sure your `.gitignore` is set correctly).
+
+## Requirements
+> [!IMPORTANT]
+> Install Python v.3.10.5 find here www.python.org
+
+## Installation :rocket:
+**1. Get started**:
+
+```bash
+py --list
+```
+Check Python Versions installt here should now be -V : 3.10 now.
+
+**2. Clone this repository**:
+> [!TIP]
+> Press (Shift+right Mouse) here you want the Folder -> open Powershell Window here.
 
 ```bash
 git clone https://github.com/JanW42/AI_Project_Full_Stack.git
@@ -71,7 +109,7 @@ cd AI_Project_Full_Stack
 
 **3. Create and activate a virtual environment (optional but recommended)**:
 > [!TIP]
-> Open the AI_Project Folder with VSCode.
+> Open the AI_Project_Full_Stack Folder with VSCode.
 > Open a new Terminal with (Ctrl+Shift+ö)de.
 
 ```bash
@@ -105,35 +143,10 @@ pip install -r requirements.txt
 > Ctrl+Shift+P “Reload Window” before.
 
 ```bash
-pip install time
-pip install edge_tts
-pip install openai
-pip install playsound==1.2.2
-pip install SpeechRecognition
-pip install faster-whisper
-pip install pyaudio
-pip install torch==2.6.0
-pip install torchaudio==2.6.0
-pip install nvidia-cudnn-cu12==9.5.0.50
-pip install nvidia-cuda-nvrtc-cu12==12.4.127
-pip install nvidia-cuda-runtime-cu12==12.4.127
-pip install nvidia-cublas-cu12==12.4.5.8
+pip install [look at name in commands the head of each .py]
 ```
-**5. Set up your environment variables** in `config.py` (see [Configuration](#configuration)).
+**5. Set up your environment variables** in `config.py`.
 
-## Usage
-
-1. **Prepare your PDFs:**  
-   - Place any relevant PDF documents in the `data` folder (or whichever folder you specify in `retriever.py`)
-
-2. **Run the application:**
-   - Start normal with the play button or in terminal 'main.py'
-   
-3. **Interact:**
-   - Wait till Alessa talks  
-   - Ask your question
-
-## Configuration
 > [!IMPORTANT]
 > Create a file named `config.py` and add following environment variables (example structure):
 
@@ -166,7 +179,16 @@ VE/  #change VE when using another venv name
 *.mp3
 ```
 
-## How It Works
+## Usage
+1. **Prepare your PDFs:**  
+   - Place any relevant PDF documents in the `data` folder (or whichever folder you specify in `retriever.py`)
+
+2. **Run the application:**
+   - Start normal with the play button or in terminal 'main.py'
+   
+3. **Interact:**
+   - Wait till Alessa talks  
+   - Ask your question
 
 ## Contributing
 
