@@ -1,31 +1,27 @@
 import asyncio
 import socketio #pip install python-core #pip install python-socketio
 import subprocess
+import numpy as np #pip install numpy
 import sounddevice as sd #pip install sounddevice
-import threading
-import queue
-import numpy as np
-import os
+import threading, queue, os, time
+import requests, re, speech_recognition as sr
+from icecream import ic
+from datetime import datetime
+from faster_whisper import WhisperModel
 from quart import Quart, render_template
-import time
-##-------------------------------------------------------------------------------------------------------------
-import os, asyncio
-from config import config #Lokal eigene Lib
-from settings import settings #Lokal eigene Lib
 from openai import AzureOpenAI #pip install openai
 from playsound import playsound #pip install playsound==1.2.2
-#from hotword_call_and_action import record_and_save, get_ambient_noise, hotword_call_and_action #Lokal eigene Lib
+##-------------------------------------------------------------------------------------------------------------
+from config import config #Lokal eigene Lib
+from settings import settings #Lokal eigene Lib
 from speech_to_text import Speech_to_Text_Parser, set_cuda_paths #Lokal eigene Lib
-from text_to_speech import remove_asterisks, text_to_mp3
-from icecream import ic
-from performance_tracking import time_function
+from text_to_speech import remove_asterisks, text_to_mp3 #Lokal eigene Lib
+from performance_tracking import time_function #Lokal eigene Lib
 
-from datetime import datetime
-import requests, re, speech_recognition as sr
 
 def initial_path():
     dir_path = os.path.dirname(os.path.realpath(__file__))
-    for file in os.listdir(dir_path):  # Nur Dateien im Root-Ordner auflisten
+    for file in os.listdir(dir_path):  #Nur Dateien im Root-Ordner auflisten
         file_path = os.path.join(dir_path, file) #stellt sicher, dass richtiges Trennzeichen MacOs Windows
         if file.endswith(settings.filename):   #zur wav datei machen für mehr performance!
             print (file_path+'/'+str(file))
@@ -62,7 +58,9 @@ def create_message(prompt):
     response_content = response.choices[0].message.content
     response_without_asterisks = remove_asterisks(response_content) # Sonderzeichen die im GPT Output stehen für bessere Sprachausgabe entfernen
     return response_without_asterisks
-##-------------------------------------------------------------------------------------------------------------
+
+##----------------------------------------------------------------------------------------------------------------------------------------------
+
 # Queues & Steuerung
 sample_queue = queue.Queue()
 volume_queue = queue.Queue()
@@ -107,10 +105,6 @@ async def connect(sid, environm, auth=None):
 # Funktion, die du synchron im Code aufrufen kannst
 def send_message(text: str):
     global main_event_loop
-    if not main_event_loop:
-        print("❌ Kein Eventloop gesetzt")
-        return
-
     try:
         if threading.current_thread() is threading.main_thread():
             # Wenn wir im Eventloop-Thread sind: über create_task()
@@ -118,9 +112,9 @@ def send_message(text: str):
         else:
             # In anderem Thread: run_coroutine_threadsafe
             asyncio.run_coroutine_threadsafe(message_queue.put(text), main_event_loop)
-        print(f"📝 Nachricht eingereiht: {text}")
+        print(f"Nachricht eingereiht: {text}")
     except Exception as e:
-        print(f"❌ Fehler beim Einreihen: {e}")
+        print(f"Fehler beim Einreihen: {e}")
     
 # Nachrichten an den Socket.IO-Client senden
 async def send_messages(sid):
@@ -132,7 +126,7 @@ async def send_messages(sid):
             print(f"📤 Sende an Client {sid}: {message}")
             await sio.emit("new_message", {"text": message}, to=sid)
         except Exception as e:
-            print(f"❌ Fehler in send_messages({sid}): {e}")
+            print(f"Fehler in send_messages({sid}): {e}")
             continue
         await asyncio.sleep(1)  # Eventloop schonen
  
@@ -149,13 +143,10 @@ def audio_playback_thread():
     global current_audio_file
     while not terminate_signal.is_set():
         if not terminate_signal.is_set(): audio_task_event.wait()
-        #if not os.path.exists(current_audio_file):
-        #    time.sleep(1)
-        #    continue
-
-        #print(f"▶️ Starte Wiedergabe: {current_audio_file}")
+    
+        #print(f"▶ Starte Wiedergabe: {current_audio_file}")
         process = subprocess.Popen([
-            "C:/ffmpeg/bin/ffmpeg.exe", "-i", current_audio_file,
+            "C:/ffmpeg/bin/ffmpeg.exe", "-i", current_audio_file, # wichtig download ffmpeg und packe es in siehe Pfad
             "-f", "s16le", "-acodec", "pcm_s16le",
             "-ac", "1", "-ar", "44100", "-"
         ], stdout=subprocess.PIPE, stderr=subprocess.DEVNULL, bufsize=10**6)
@@ -178,22 +169,12 @@ def audio_playback_thread():
             stream.stop()
             stream.close()
             send_message(f"Wiedergabe beendet {current_audio_file}")
-            #print("⏹️ Wiedergabe beendet.")
-
-        # Wenn Input.mp3 gespielt wurde, löschen und wieder auf neue warten
-        if current_audio_file == "input.mp3":
-            try:
-                os.remove("input.mp3")
-                print("🗑️ input.mp3 gelöscht")
-            except Exception as e:
-                print(f"⚠️ Fehler beim Löschen: {e}")
-            current_audio_file = None
+            #print("⏹ Wiedergabe beendet.")
 
         # Warten auf nächste Datei (siehe monitor_task)
         audio_task_event.clear()
 
 # Thread: Analyse
-
 def volume_analysis_thread():
     while not terminate_signal.is_set():
         samples = sample_queue.get()
@@ -203,46 +184,21 @@ def volume_analysis_thread():
         volume = min(max(volume, 0), 1)
         volume_queue.put(volume)
 
-def wait_to_close_thread():
-    raise KeyboardInterrupt("Simulierter Abbruch")
-    if ThreadManager.threads["audio"].is_alive():
-        ThreadManager.threads["audio"].join()
-        print ("Thread 1 erfolgreich")
-    if ThreadManager.threads["volume"].is_alive():
-        ThreadManager.threads["volume"].join()
-        print ("Thread 2 erfolgreich")
-    if ThreadManager.threads["monitor"].is_alive():
-        ThreadManager.threads["monitor"].join()
-        print ("Thread 3 erfolgreich")
-        
 # Task: Überwacht, ob neue input.mp3 auftaucht
 def monitor_input_thread():
     global current_audio_file
     #current_audio_file = "tmpw79o6tmd.mp3"
     if os.path.exists("start.mp3") and not terminate_signal.is_set():
-        time_function(initial_path) #Backend
-        time_function(set_cuda_paths)# Setzte einmal den CUDA Pfad #Backend
-        audio_task_event.set()  # Erste Datei starten
+        time_function(initial_path) # Backend
+        time_function(set_cuda_paths) # Setzte einmal den CUDA Pfad #Backend
+        audio_task_event.set() # Erste Datei starten
 
     while not terminate_signal.is_set():
         if os.path.exists("start.mp3") and not audio_task_event.is_set(): #Nur wenn es eine Input.mp3 gibt und der audio_task_thread nicht läuft dann:
             #send_message("starte Wiedergabe")
 
-            status, text = hotword_call_and_action()
-            #time_function(record_and_save) #Hier wird die Funktion record and save aufgerufen um die Mikrosprache solange auszunehmen bis man aufhört zu reden. Dann wird es in der Input.wav Datei gespeichert.
-            #text = time_function(Speech_to_Text_Parser) #Hier wird die Sprache aus input.mp3 in Text verarbeitet mit der extrem Leistungsstarken lokalen CUDA anwendung von OpenAI / Nvidia
-            if status:
-                #time_function(playsound, "tmp77bgpy50.mp3")
-                current_audio_file = "tmp77bgpy50.mp3"
-                audio_task_event.set()
-                while True:
-                    if not audio_task_event.is_set():
-
-                        terminate_signal.set() # Signal zum Abschalten
-                        break
-                    else:
-                        time.sleep(1) #oder 1
-                break
+            text = hotword_call_and_action()
+        
             result = time_function(create_message, text)  #Rufe die Funktion auf und übergebe die "Frage" zu ChatGpt API
             asyncio.run(text_to_mp3(result, settings.filename, settings.voice, settings.rate, settings.pitch))
 
@@ -251,7 +207,6 @@ def monitor_input_thread():
             audio_task_event.set() #Hier wird der Thread starte Wiedergabe Audio ausgeführt
 
         time.sleep(1) # warte 1 Sekunde bevor geguckt wird ob es eine Input.mp3 gibt.
-    wait_to_close_thread()
 
 def hotword_call_and_action():
     recognizer = sr.Recognizer()
@@ -261,13 +216,10 @@ def hotword_call_and_action():
             print("Sage 'Alessa'")
             audio = recognizer.listen(mic)
 
-            wav_filename = "input.wav"
+            wav_filename = settings.wav_filename
             with open(wav_filename, "wb") as f:
                 f.write(audio.get_wav_data())
-            from speech_to_text import Speech_to_Text_Parser
-            from settings import settings
 
-            from faster_whisper import WhisperModel
             model_size = settings.model_size
             try:
                 model = WhisperModel(model_size, device=settings.device, compute_type=settings.compute_type)
@@ -284,14 +236,13 @@ def hotword_call_and_action():
                 current_audio_file = "tmpk062s683.mp3"
                 audio_task_event.set()
                 time.sleep(1)
-                #playsound("tmpk062s683.mp3")
+        
                 print("\033[1;32mStelle mir deine Frage...\033[0m")
                 audio = recognizer.listen(mic, timeout=None)
 
                 wav_filename = "input.wav"
                 with open(wav_filename, "wb") as f:
                     f.write(audio.get_wav_data())
-                from speech_to_text import Speech_to_Text_Parser
 
                 model_size = settings.model_size
                 model = WhisperModel(model_size, device=settings.device, compute_type=settings.compute_type)
@@ -299,13 +250,8 @@ def hotword_call_and_action():
                 for segment in segments:
                     print("[%.2fs -> %.2fs] %s" % (segment.start, segment.end, segment.text))
                 text = segment.text
-                if "Stopp" in text:
-                    status = True
-                    text = ""
-                    return status, text
-                
+
                 if "Wetter" in text:
-                    #playsound ("tmpw79o6tmd.mp3")
                     current_audio_file = "tmpw79o6tmd.mp3"
                     send_message("starte Wiedergabe Wetter")
                     audio_task_event.set()
@@ -334,7 +280,6 @@ def hotword_call_and_action():
                     weather = get_openweather(text)
 
                     asyncio.run(text_to_mp3(weather, settings.filename, settings.voice, settings.rate, settings.pitch))
-                    #time_function(playsound, settings.filename) # Den im neuem Thread starten um dazwischen zu sprechen
                     current_audio_file = "output.mp3"
                     send_message("starte Wiedergabe Wetter#2")
                     audio_task_event.set()
@@ -355,7 +300,6 @@ def hotword_call_and_action():
                     Uhrzeit = time.strftime("%H:%M:%S")
 
                     asyncio.run(text_to_mp3(f"Es ist {Uhrzeit}", settings.filename, settings.voice, settings.rate, settings.pitch))
-                    #time_function(playsound, settings.filename) # Den im neuem Thread starten um dazwischen zu sprechen
                     current_audio_file = "output.mp3"
                     send_message("starte Wiedergabe Uhr")
                     audio_task_event.set()
@@ -372,7 +316,6 @@ def hotword_call_and_action():
                     Uhrzeit2 = time.strftime("%H:%M:%S")
 
                     asyncio.run(text_to_mp3(Uhrzeit2, settings.filename, settings.voice, settings.rate, settings.pitch))
-                    #time_function(playsound, settings.filename) # Den im neuem Thread starten um dazwischen zu sprechen
                     current_audio_file = "output.mp3"
                     send_message("starte Wiedergabe spät")
                     audio_task_event.set()
@@ -385,8 +328,7 @@ def hotword_call_and_action():
                     continue
                 else:
                     if text is not None:
-                        status = False
-                        return status, text
+                        return text
             print("\033[38;2;255;165;0mHotword Failed\033[0m")
 
 def get_openweather(stadt: str):

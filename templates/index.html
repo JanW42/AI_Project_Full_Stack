@@ -9,19 +9,14 @@
 </head>
 <body>
     <div id="header">
-        <a href="https://github.com/JanW42" target="_blank">
-            <img src="{{ url_for('static', filename='GitHubJanW42.png') }}" alt="Github Logo" id="logogithub">
-        </a>
-        <a href="https://www.fh-muenster.de/de/msb/" target="_blank">
-            <img src="{{ url_for('static', filename='FH Muenster.png') }}" alt="FH Münster Logo" id="logofhmuenster">
-        </a>
+        
+        <img src="{{ url_for('static', filename='GitHubJanW42.png') }}" alt="Github Logo" id="logogithub">
+     
+        <img src="{{ url_for('static', filename='FH Muenster.png') }}" alt="FH Münster Logo" id="logofhmuenster">
+        
     </div>
 
     <canvas id="ai-canvas"></canvas>
-
-    <button id="holo-toggle" class="holo-button">
-        <span class="icon play"></span>
-    </button>
 
     <div id="messages"></div>
 

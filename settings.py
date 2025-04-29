@@ -6,6 +6,7 @@ class settings:
     welcometext = "Hallo mein Name ist Alessa. Wie kann ich dir helfen?"
     
     filename  = "output.mp3"
+    wav_filename = "input.wav"
     
     voice = "de-DE-SeraphinaMultilingualNeural"
     rate="+10%"
