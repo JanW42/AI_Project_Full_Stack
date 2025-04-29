@@ -6,8 +6,6 @@
 
 AI Voice Assistant Alessa. Project at the FH Münster with Dr. Rasch in Prescriptive Analytics and Artificial Intelligence
 
-https://github.com/user-attachments/assets/4a99182a-df3e-423b-8a16-ed0cc96688b3
-
 ## Structure
 - [Overview](#overview)
 - [Features](#features)
@@ -96,7 +94,7 @@ Allgemein
 ```bash
 py --list
 ```
-Check Python Versions installt here should now be -V : 3.10 now.
+Check Python Versions installt here should now be -V : 3.10.
 
 **2. Clone this repository**:
 > [!TIP]
@@ -121,29 +119,29 @@ VE\Scripts\activate.bat   # for Windows using cmd
 VE\Scripts\activate.ps1   # for Windows using PowerShell
 ```
 
-- Danach Strg Shift P und Reload
-- Terminal neu öffnen
+> [!TIP]
+> Now the VE is active, you see it as it is at the beginning at the code line and
+> at the bottom right is now {} Python 3.10.5('VE':venv)
+
+- After that Strg Shift P and Reload
+- Now open the terminal again
   
+**4. Install required dependencies**:
+```bash
+pip install -r requirements.txt
+```
+
 ```bash
   pip install --upgrade pip
   pip install python-core
 
 ```
 > [!TIP]
-> Now the VE is active, you see it as it is at the beginning at the code line and
-> at the bottom right is now {} Python 3.10.5('VE':venv)
-
-**4. Install required dependencies**:
-```bash
-pip install -r requirements.txt
-```
-
-> [!TIP]
 > Install manually if import library name is still underlined in yellow.
 > Ctrl+Shift+P “Reload Window” before.
 
 ```bash
-pip install [look at name in commands the head of each .py]
+pip install ...
 ```
 **5. Set up your environment variables** in `config.py`.
 
@@ -184,10 +182,10 @@ VE/  #change VE when using another venv name
    - Place any relevant PDF documents in the `data` folder (or whichever folder you specify in `retriever.py`)
 
 2. **Run the application:**
-   - Start normal with the play button or in terminal 'main.py'
+   - Start normal with the play button or in terminal in 'app.py'
    
 3. **Interact:**
-   - Wait till Alessa talks  
+   - Wait until you are asked to say the hotword "Alessa"
    - Ask your question
 
 ## Contributing

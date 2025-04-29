@@ -32,7 +32,7 @@ def initial_path():
             os.remove(settings.filename) #Datei löschen wenn mp3 vorhanden
                 
 def create_message(prompt):
-    model = settings.model   #definiere Model von ChatGpt
+    model = settings.model   # definiere Model von ChatGpt
 
     # Nachfolgende OpenAIModel und if Funktion Optional
     OpenAIModels = settings.OpenAIModels
@@ -60,7 +60,7 @@ def create_message(prompt):
     # Frage nach bei der API. Sende dafür die Nachricht mit dem GPT Model was zur Antwort benutzt werden soll.
     response = client.chat.completions.create(messages=messages, model=model)
     response_content = response.choices[0].message.content
-    response_without_asterisks = remove_asterisks(response_content) #Sonderzeichen die im GPT Output stehen entfernen für bessere Sprachausgabe
+    response_without_asterisks = remove_asterisks(response_content) # Sonderzeichen die im GPT Output stehen für bessere Sprachausgabe entfernen
     return response_without_asterisks
 ##-------------------------------------------------------------------------------------------------------------
 # Queues & Steuerung
@@ -410,40 +410,3 @@ def get_openweather(stadt: str):
 if __name__ == "__main__":
     import uvicorn #pip install uvicorn
     uvicorn.run(sio_app, host="127.0.0.1", port=5000, log_level="info")
-    ##-------------------------------------------------------------------------------------------------------------
-    '''time_function(initial_path)
-    #asyncio.run(text_to_mp3(settings.welcometext, settings.filename, settings.voice, settings.rate, settings.pitch))
-    try:
-        pass
-        #time_function(playsound, settings.filename)
-        #time_function(os.remove, settings.filename)
-    except (RuntimeError, TypeError, ValueError) as e:
-        print (f'Error in Initial playsound True. {e}')
-    except KeyboardInterrupt:
-        print ("Das Programm wurde beendet")
-
-    time_function(set_cuda_paths)# Setzte einmal den CUDA Pfad
-    #time_function(get_ambient_noise)# Erfasse Hintergrundrauschen
-
-    while True:
-        try:
-            status, text = hotword_call_and_action()
-            #time_function(record_and_save) #Hier wird die Funktion record and save aufgerufen um die Mikrosprache solange auszunehmen bis man aufhört zu reden. Dann wird es in der Input.wav Datei gespeichert.
-            #text = time_function(Speech_to_Text_Parser) #Hier wird die Sprache aus input.mp3 in Text verarbeitet mit der extrem Leistungsstarken lokalen CUDA anwendung von OpenAI / Nvidia
-            if status:
-                time_function(playsound, "tmp77bgpy50.mp3")
-                break
-            result = time_function(create_message, text)  #Rufe die Funktion auf und übergebe die "Frage" zu ChatGpt API
-            asyncio.run(text_to_mp3(result, settings.filename, settings.voice, settings.rate, settings.pitch))
-            try:
-                time_function(playsound, settings.filename)
-                time_function(os.remove, settings.filename)
-
-            except (RuntimeError, TypeError, ValueError) as e:
-                print (f'Error in Haupt While True. {e}')
-
-        except (RuntimeError, TypeError, ValueError) as e:
-            print (f'Error in Hauptwhile True. {e}')
-        except KeyboardInterrupt:
-            print ("Programm wurde beendet")'''
-
