@@ -14,7 +14,7 @@ from playsound import playsound #pip install playsound==1.2.2
 ##-------------------------------------------------------------------------------------------------------------
 from config import config #Lokal eigene Lib
 from settings import settings #Lokal eigene Lib
-from speech_to_text import Speech_to_Text_Parser, set_cuda_paths #Lokal eigene Lib
+from speech_to_text import set_cuda_paths #Lokal eigene Lib
 from text_to_speech import remove_asterisks, text_to_mp3 #Lokal eigene Lib
 from performance_tracking import time_function #Lokal eigene Lib
 
@@ -347,6 +347,9 @@ def get_openweather(stadt: str):
         return f"Das aktuelle Wetter in {stadt} ist {wetterbeschreibung} bei {temp}°C."
     else:
         return "Entschuldigung, das Wetter konnte nicht abgerufen werden."
+    
+def get_stockprices():
+    pass
     
 # Server starten
 if __name__ == "__main__":
