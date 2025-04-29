@@ -39,20 +39,20 @@ AI Voice Assistant Alessa. Project at the FH Münster with Dr. Rasch in Prescrip
 
 ```plaintext
 Frontend (Benutzeroberfläche / Client)
+├── app.py                     # Flask App für die Benutzeroberfläche
+│
 ├── static/                    # Statische Dateien
 │   ├── styles.css             # Styling (CSS)
 │   ├── script.js              # Frontend-Logik (JavaScript, WebSocket)
 │
 ├── templates/                 # HTML-Templates
 │   ├── index.html             # Haupt-HTML-Seite (UI)
-│
-├── app.py                     # Flask App für die Benutzeroberfläche
-
+│ 
 Backend (Serverlogik)
-├── main.py                    # Zentrale Backend-Logik
-├── hotword_call_and_action.py # Hotword-Erkennung und Aktionen
-├── speech_to_text.py          # Sprache-zu-Text-Konvertierung
-├── text_to_speech.py          # Text-zu-Sprache-Konvertierung
+├── app.py                     # Zentrale Backend-Logik
+│   ├── speech_to_text.py      # Initiale Einstellungen zur Sprachkonvertierung
+│   ├── text_to_speech.py      # Text-zu-Sprache-Konvertierung
+│
 ├── performance_tracking.py    # Performance-Tracking
 ├── settings.py                # Konfigurationsdatei
 ├── testaudioindex.py          # Tests für Audiodateien
