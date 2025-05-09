@@ -15,7 +15,6 @@ AI Voice Assistant Alessa. Project at the FH Münster with Dr. Rasch in Prescrip
 - [Requirements](#requirements)
 - [Installation](#installation)
 - [Usage](#usage)
-- [Configuration](#configuration)
 - [Contributing](#contributing)
 - [Acknowledgments](#acknowledgments)
   
@@ -39,7 +38,7 @@ AI Voice Assistant Alessa. Project at the FH Münster with Dr. Rasch in Prescrip
 ## Project Structure
 
 ```plaintext
-Frontend (Benutzeroberfläche / Client) UI
+Frontend (User interface  / Client) UI
 ├── app.py                     # Flask app for the user interface
 │
 ├── static/                    # Static files for Flask
@@ -89,8 +88,8 @@ General
 > [!IMPORTANT]
 > Install Python v.3.10.5 find here www.python.org
 
-## Installation :rocket:
-**1. Get started**:
+## Installation
+**1. Get started**: :rocket:
 
 ```bash
 py --list
