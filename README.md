@@ -30,7 +30,7 @@ AI Voice Assistant Alessa. Project at the FH Münster with Dr. Rasch in Prescrip
 
 ## Features
 
-- **AI Voice Assistent**: An AI with emotional german voice to answer questions using Agent functions or gpt4o Openai API.
+- **AI Voice Assistent**: An AI with emotional german voice to answer questions using Agent functions or gpt4o Openai API almost in real time with RTX 4070Ti or above card and free of charge.
 - **Agent function system time**: Returns the current system time when requested.
 - **Agent function OpenWeather API**: Retrieves up-to-date weather information for every location you ask about.
   
