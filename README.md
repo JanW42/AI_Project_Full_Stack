@@ -22,59 +22,60 @@ AI Voice Assistant Alessa. Project at the FH Münster with Dr. Rasch in Prescrip
 ## Overview
 
 **AI_Project** is a AI Voice Assistent designed to answer questions:
-1. It will retrieves relevant chunks of text from local PDF documents.
+1. Voice Assistant based on OpenAI with Agent functions (Clock, Weather)
 2. It calls Azure OpenAI to generate context-aware responses.
-3. It will fetches real-time weather information via the OpenWeather API.
-4. It will displays everything in a Real-Time WebApp.
+3. It fetches real-time weather information via the OpenWeather API.
+4. It retrieves real-time system time.
+5. An animated hologram and current server activities are sent to the front end. 
+6. The hologram is animated in real time to match the audio.
 
 ## Features
 
 - **AI Voice Assistent**: An AI with emotional german voice to answer questions using gpt4o Openai API.
-- **Local PDF Retriever**: Will use chunk-based embedding retrieval to provide context for your questions.
+- **Agent function Clock**: Returns the current system time when requested.
 - **Azure OpenAI Integration**: Generates answers using GPT models hosted on Azure OpenAI.
 - **OpenWeather API**: Retrieves up-to-date weather information for a given location.
-- **Datetime now**: Tells you the current time.
   
 ## Project Structure
 
 ```plaintext
-Frontend (Benutzeroberfläche / Client)
-├── app.py                     # Flask App für die Benutzeroberfläche
+Frontend (Benutzeroberfläche / Client) UI
+├── app.py                     # Flask app for the user interface
 │
-├── static/                    # Statische Dateien
+├── static/                    # Static files for Flask
 │   ├── styles.css             # Styling (CSS)
-│   ├── script.js              # Frontend-Logik (JavaScript, WebSocket)
+│   ├── script.js              # Frontend-Logic (JavaScript, WebSocket)
 │
-├── templates/                 # HTML-Templates
-│   ├── index.html             # Haupt-HTML-Seite (UI)
+├── templates/                 # Static files for Flask
+│   ├── index.html             # Haupt-HTML-Site (UI)
 │ 
-Backend (Serverlogik)
-├── app.py                     # Zentrale Backend-Logik
-│   ├── speech_to_text.py      # Initiale Einstellungen zur Sprachkonvertierung
-│   ├── text_to_speech.py      # Text-zu-Sprache-Konvertierung
+Backend (Serverlogic)
+├── app.py                     # Central backend logic
+│   ├── speech_to_text.py      # Initial settings for language conversion
+│   ├── text_to_speech.py      # Text-to-speech conversion
 │
 ├── performance_tracking.py    # Performance-Tracking
-├── settings.py                # Konfigurationsdatei
-├── testaudioindex.py          # Tests für Audiodateien
+├── settings.py                # Configuration file
+├── testaudioindex.py          # Tests for audio files
 │
-├── input.wav                  # Beispiel Audioeingabe
-├── output.mp3                 # Beispiel Audioausgabe
-├── start.mp3                  # Startsignal Audio
-├── tmp*.mp3                   # Temporäre Audiodateien
+├── input.wav                  # Audio Input file
+├── output.mp3                 # Audio output file
+├── start.mp3                  # Start audio (Save resources)
+├── tmp*.mp3                   # Pre-generated audio files (Save resources)
 
-Allgemein
-├── requirements.txt           # Projektabhängigkeiten
-├── README.md                  # Projektdokumentation
+General
+├── requirements.txt           # Project dependencies
+├── README.md                  # Project documentation
 ├── LICENSE                    # Lizenz
-├── .gitignore                 # Dateien, die Git ignorieren soll
+├── .gitignore                 # Files that Git should ignore
 ```
 ## Architecture overview
 ```plaintext
 +-------------------+           +----------------------------+           +-------------------+
 |                   |           |                            |           |                   |
-|    Client         | <-------> |  Frontend (UI mit Flask)   | <-------> |     Backend       |
-|    Nutzer         | 127.0.0.1 |      HTML / CSS / JS       | WebSocket |      Python       |
-|                   |           |                            |           |                   |
+|      Client       | <-------> |  Frontend (UI mit Flask)   | <-------> |     Backend       |
+|      Users        | 127.0.0.1 |      HTML / CSS / JS       | WebSocket |      Python       |
+|                   |     :5000 |                            |           |                   |
 +-------------------+           +----------------------------+           +-------------------+
 ```
 ## File Details
@@ -178,10 +179,8 @@ VE/  #change VE when using another venv name
 ```
 
 ## Usage
-1. **Prepare your PDFs:**  
-   - Place any relevant PDF documents in the `data` folder (or whichever folder you specify in `retriever.py`)
 
-2. **Run the application:**
+1. **Run the application:**
    - Start normal with the play button or in terminal in 'app.py'
    
 3. **Interact:**
