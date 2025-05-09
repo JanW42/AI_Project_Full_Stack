@@ -74,7 +74,7 @@ body {
  /* Canvas exakt oben und zentriert */
  #ai-canvas {
   position: absolute;
-  top: -250px;                 /* wie weit oben*/
+  top: -150px;                 /* wie weit oben*/
   left: 50%;              /* horizontal mittig */
   transform: translateX(-50%);  /* exakt mittig zentrieren */
   width: 800px;           /* oder 100% / responsive */
