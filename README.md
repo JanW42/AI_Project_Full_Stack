@@ -30,10 +30,9 @@ AI Voice Assistant Alessa. Project at the FH Münster with Dr. Rasch in Prescrip
 
 ## Features
 
-- **AI Voice Assistent**: An AI with emotional german voice to answer questions using gpt4o Openai API.
-- **Agent function Clock**: Returns the current system time when requested.
-- **Azure OpenAI Integration**: Generates answers using GPT models hosted on Azure OpenAI.
-- **OpenWeather API**: Retrieves up-to-date weather information for a given location.
+- **AI Voice Assistent**: An AI with emotional german voice to answer questions using Agent functions or gpt4o Openai API.
+- **Agent function system time**: Returns the current system time when requested.
+- **Agent function OpenWeather API**: Retrieves up-to-date weather information for every location you ask about.
   
 ## Project Structure
 
