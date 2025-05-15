@@ -45,7 +45,7 @@ Frontend (User interface  / Client) UI
 │   ├── script.js              # Frontend-Logic (JavaScript, WebSocket)
 │
 ├── templates/                 # Static files for Flask
-│   ├── index.html             # Haupt-HTML-Site (UI)
+│   ├── index.html             # Main HTML site (UI)
 │ 
 Backend (Serverlogic)
 ├── app.py                     # Central backend logic
